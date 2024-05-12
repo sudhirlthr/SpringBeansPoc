@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- bean definitions here -->
+    <bean id="driver" class="org.postgresql.Driver" />
+    <bean id="simpleDriverDataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource" >
+        <constructor-arg ref="driver" />
+        <constructor-arg value="jdbc:postgresql://localhost:8888/postgres" />
+        <constructor-arg value="postgres"/>
+        <constructor-arg value="123456" />
+    </bean>
+
+    <bean id="jdbcClient" class="org.springframework.jdbc.core.simple.JdbcClient" factory-method="create">
+        <constructor-arg ref="simpleDriverDataSource" />
+    </bean>
+
+    <bean id="customerService" class="spring.beans.poc.SpringBeanPoc.service.CustomerService">
+        <constructor-arg ref="jdbcClient"/>
+    </bean>
+</beans>
